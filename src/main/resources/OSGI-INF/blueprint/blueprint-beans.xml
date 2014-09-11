@@ -42,7 +42,7 @@
 	</camelcxf:rsServer>
 
 <!-- 	<camelcxf:rsClient id="bpmsService"
-		address="http://ad0480blyn.genworth.net:8080/business-central/rest"
+		address="http://localhost:8080/business-central/rest"
 		loggingFeatureEnabled="true">
 		<camelcxf:providers>
 			<ref component-id="jsonProvider" />
