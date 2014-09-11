@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="PathFeaturesRepo">
+	<feature name="workflow-feature" version="0.0.1-SNAPSHOT">
+		<bundle>mvn:com.fasterxml.jackson.core/jackson-core/2.3.2</bundle>
+		<bundle>mvn:com.fasterxml.jackson.core/jackson-annotations/2.3.2</bundle>
+		<bundle>mvn:com.fasterxml.jackson.core/jackson-databind/2.3.2</bundle>
+		<bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/2.3.2</bundle>
+		<bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/2.3.2</bundle>
+		<feature version="2.12.0.redhat-610379">camel-xmljson</feature>
+	</feature>
+</features>
