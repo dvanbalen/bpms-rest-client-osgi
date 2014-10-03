@@ -150,6 +150,11 @@
 			<artifactId>camel-cxf</artifactId>
 			<version>2.12.2</version>
 		</dependency>
+		<dependency>
+			<groupId>com.redhat.consulting</groupId>
+			<artifactId>bpms-rest-domain</artifactId>
+			<version>1.5</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -161,11 +166,11 @@
 					<instructions>
 <!-- 						<Embed-Dependency>drools-core,jbpm-human-task-core,kie-api,kie-internal,kie-services-jaxb,workflow-common</Embed-Dependency>
  -->			
- 						<Embed-Dependency>kie-services-jaxb</Embed-Dependency>			
+ 						<Embed-Dependency>kie-services-jaxb,bpms-rest-domain</Embed-Dependency>			
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Export-Package>com.redhat.consulting.workflow,com.redhat.consulting.workflow.service</Export-Package>
 						<Private-Package>com.redhat.consulting.workflow.impl,com.redhat.consulting.workflow.service.impl</Private-Package>
-						<Import-Package>org.apache.camel,javax.xml.bind,org.apache.cxf.common.util,org.apache.cxf.jaxrs.client,com.fasterxml.jackson.jaxrs.json,javax.ws.rs.core;version="[2.0,3)",javax.ws.rs,org.drools.core.command.runtime.process,org.jbpm.services.task.commands,org.kie.api.command,org.jbpm.services.task.impl.model.xml,org.kie.api.task.model,org.kie.api.runtime.process,org.kie.internal.deployment,org.kie.api.definition.process,org.jbpm.process.audit.event,org.jbpm.process.audit</Import-Package>
+						<Import-Package>org.apache.camel,javax.xml.bind,org.apache.cxf.common.util,org.apache.cxf.jaxrs.client,com.fasterxml.jackson.jaxrs.json,javax.ws.rs.core;version="[2.0,3)",javax.ws.rs,org.drools.core.command,org.drools.core.command.runtime,org.drools.core.command.runtime.process,org.jbpm.services.task.commands,org.kie.api.command,org.jbpm.services.task.impl.model.xml,org.kie.api.task.model,org.kie.api.runtime.process,org.kie.internal.deployment,org.kie.api.definition.process,org.jbpm.process.audit.event,org.jbpm.process.audit,org.drools.core.command.runtime.rule,org.jbpm.process.audit.command,org.drools.core.xml.jaxb.util</Import-Package>
 					</instructions>
 				</configuration>
 			</plugin>
