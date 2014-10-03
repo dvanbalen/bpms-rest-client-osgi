@@ -10,33 +10,41 @@
       http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
 
 	<camel:camelContext trace="true" id="workflowServiceContext">
-<!-- 		<camel:dataFormats>
+		<camel:properties>
+			<camel:property key="CamelLogDebugBodyMaxChars" value="0" />
+		</camel:properties>
+		<camel:dataFormats>
 			<camel:xmljson id="xmljson" />
 			<camel:xmlBeans id="xmlbeans" />
 		</camel:dataFormats>
- -->		
+
 		<camel:route id="workflowServiceRoute">
 			<camel:from
 				uri="cxfrs:bean:workflowServiceEndpoint?bindingStyle=SimpleConsumer" />
-				
+
+			<camel:log message="#####!!!!! IN WORKFLOW SERVICE !!!!!#####" />
+
 			<camel:to uri="bean:processingBean?method=process" />
-				
-<!-- 			<camel:setBody>
-				<camel:method ref="processingBean" method="process" />
-			</camel:setBody>
- -->				
-			<camel:log message="In workflow service." />
-			<camel:to uri="log:com.genworth.workflow?showProperties=true" />
-<!-- 			<camel:setHeader headerName="Authorization">
-				<camel:simple>Basic ZGF2aWQ6ZGF2aWQxMjMh</camel:simple>
+
+			<camel:log message="#####!!!!! AFTER PROCESSING BEAN. !!!!!#####" />
+
+			<camel:marshal>
+				<camel:jaxb
+					contextPath="org.kie.services.client.serialization.jaxb.impl:org.drools.core.xml.jaxb.util" />
+			</camel:marshal>
+
+			<camel:convertBodyTo type="java.lang.String" />
+
+			<camel:setHeader headerName="Authorization">
+				<camel:constant>Basic ZGF2aWQ6ZGF2aWQxMjMh</camel:constant>
 			</camel:setHeader>
- -->			
-<!-- 			<camel:setHeader headerName="Content-Type">
-				<camel:simple>application/x-www-form-urlencoded</camel:simple>
+			<camel:setHeader headerName="Content-Type">
+				<camel:constant>application/xml</camel:constant>
 			</camel:setHeader>
- -->
-<!-- 			<camel:to uri="cxfrs:bean:bpmsService" />
- -->			
+
+			<!-- <setHeader headerName="CamelHttpPath"> <simple>{{service2.path}}</simple> 
+				</setHeader> -->
+			<camel:to uri="cxfrs:bean:bpmsService" />
 		</camel:route>
 	</camel:camelContext>
 </blueprint>

@@ -31,7 +31,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 	 */
 
 	@Override
-	public Response startWorkflow(Map<String, String> parameters,
+	public Response startWorkflow(Map<String, Object> parameters,
 			String deploymentId, String workflowId) {
 		try {
 			/*

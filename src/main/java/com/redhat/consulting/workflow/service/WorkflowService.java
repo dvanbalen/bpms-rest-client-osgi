@@ -23,7 +23,7 @@ public interface WorkflowService {
 	@POST
 	@Path("/{deployment}/process/{workflow}/start")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response startWorkflow(Map<String, String> parameters, @PathParam("deployment") String deploymentId,
+	public Response startWorkflow(Map<String, Object> parameters, @PathParam("deployment") String deploymentId,
 			@PathParam("workflow") String workflowId);
 
 	@POST

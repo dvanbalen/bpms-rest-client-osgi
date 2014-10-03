@@ -1,22 +1,22 @@
 package com.redhat.consulting.workflow.impl;
 
-import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
 import org.apache.camel.Exchange;
-import org.apache.camel.component.cxf.common.message.CxfConstants;
+import org.drools.core.command.runtime.process.StartProcessCommand;
+import org.kie.services.client.serialization.jaxb.impl.JaxbCommandsRequest;
 
 import com.redhat.consulting.workflow.WorkflowManager;
 
 public class ProcessingBean {
 
 	JAXBContext jaxbContext = null;
+	WorkflowManager workflowManager = new WorkflowManagerImpl();
+	String deployment = null;
+	String workflow = null;
+	StartProcessCommand spc = null;
 
 	public ProcessingBean() {
 		try {
@@ -30,59 +30,46 @@ public class ProcessingBean {
 		System.out.println("########## GOT BODY ###########: "
 				+ exchange.getIn().getBody() + " of type: "
 				+ exchange.getIn().getBody().getClass().getName());
+		
+		workflowManager.clearCommandList();
 
 		LinkedHashMap<String, Object> params = null;
-
+		JaxbCommandsRequest request = null;
+		
+		deployment = (String)exchange.getIn().getHeader("deployment");
+		workflow = (String)exchange.getIn().getHeader("workflow");
+		
 		Object obj = exchange.getIn().getBody();
 
 		if (obj instanceof LinkedHashMap) {
-			params = (LinkedHashMap<String, Object>) exchange.getIn().getBody();
+			params = (LinkedHashMap<String, Object>) obj;
 		} else {
 			throw new RuntimeException("unsupported body type: "
 					+ obj.getClass().getName());
 		}
 
 		try {
-			WorkflowManager workflowManager = new WorkflowManagerImpl();
 			workflowManager
 					.setRuntimeUri("http://localhost:8080/business-central/rest/runtime");
-			// Map<String, Object> params = new HashMap<>();
-			//params.put("user", "foobar");
-			//params.put("email", "baz");
 			workflowManager.createStartProcessCommand("Workflows.TestProcess",
 					params);
-			workflowManager
-					.sendBpmsCommands("com.redhat.consulting:Workflows:1.0");
+			request = workflowManager
+					.getBpmsRequest("com.redhat.consulting:Workflows:1.0");
+			
 		} catch (Exception e) {
 			throw new RuntimeException("Error sending request to BPMS. ", e);
 		}
 
 		// exchange.getIn().setHeader(CxfConstants.CAMEL_CXF_RS_QUERY_MAP, obj);
+		exchange.getIn().setHeader("CamelHttpPath", "runtime/"+deployment+"/execute");
+		exchange.getIn().setHeader("Content-Type", "application/xml");
 
 		exchange.getIn().setHeader(Exchange.HTTP_METHOD, "POST");
-		/*
-		 * exchange.getIn().setHeader(Exchange.CONTENT_TYPE,
-		 * "application/x-www-form-urlencoded");
-		 * exchange.getIn().setHeader(Exchange.ACCEPT_CONTENT_TYPE,
-		 * "application/json");
-		 */
 		
-/*		exchange.getIn().setHeader(Exchange.HTTP_QUERY,
-				"map_user=foo&map_email=bar");
-*/
-		return params;
+		System.out.println("########## RETURNING REQUEST ##########");
+		
+		return request;
 
-		/*
-		 * Marshaller marshaller = null; StringWriter stringWriter = null;
-		 * 
-		 * try { marshaller = jaxbContext.createMarshaller();
-		 * 
-		 * stringWriter = new StringWriter();
-		 * 
-		 * marshaller.marshal(body, stringWriter); } catch (JAXBException je) {
-		 * throw new RuntimeException("Error marshalling to XML.", je); }
-		 * 
-		 * return stringWriter.toString();
-		 */}
+	}
 
 }

@@ -16,7 +16,7 @@
 			<cm:property name="bpms.authorization" value="Basic ZGF2aWQ6ZGF2aWQxMjMh" />
 		</cm:default-properties>
 	</cm:property-placeholder>
-	
+
 	<bean id="processingBean" class="com.redhat.consulting.workflow.impl.ProcessingBean" />
 
 	<bean id="workflowManager" class="com.redhat.consulting.workflow.impl.WorkflowManagerImpl">
@@ -41,20 +41,12 @@
 		</camelcxf:serviceBeans>
 	</camelcxf:rsServer>
 
-<!-- 	<camelcxf:rsClient id="bpmsService"
+	<camelcxf:rsClient id="bpmsService"
 		address="http://localhost:8080/business-central/rest"
 		loggingFeatureEnabled="true">
-		<camelcxf:providers>
-			<ref component-id="jsonProvider" />
-		</camelcxf:providers>
+		<!-- <camelcxf:providers> <ref component-id="jsonProvider" /> </camelcxf:providers> -->
 	</camelcxf:rsClient>
- -->
+
 	<bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
 
-	<!-- <reference id="authorizationService" interface="com.redhat.consulting.security.authorization.AuthorizationService" 
-		/> -->
-	<!-- <jaxrs:server id="workflowServiceEndpoint" address="http://localhost:8182"> 
-		<jaxrs:providers> <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" 
-		/> </jaxrs:providers> <jaxrs:serviceBeans> <ref component-id="workflowService" 
-		/> </jaxrs:serviceBeans> </jaxrs:server> -->
 </blueprint>

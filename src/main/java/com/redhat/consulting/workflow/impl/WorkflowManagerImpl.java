@@ -81,6 +81,13 @@ public class WorkflowManagerImpl implements WorkflowManager {
 
 		cmds.add(cmd);
 	}
+	
+	@Override
+	public JaxbCommandsRequest getBpmsRequest(String deploymentId) {
+		JaxbCommandsRequest req = new JaxbCommandsRequest(deploymentId, cmds);
+		
+		return req;
+	}
 
 	@Override
 	public void sendBpmsCommands(String deploymentId) throws Exception {
@@ -208,6 +215,12 @@ public class WorkflowManagerImpl implements WorkflowManager {
 					"Unexpected number of results from single command");
 		}
 
+	}
+
+	@Override
+	public void clearCommandList() {
+		cmds.clear();
+		
 	}
 
 }
